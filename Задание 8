@@ -1,0 +1,49 @@
+#include <opencv2/opencv.hpp>
+#include <iostream>
+
+using namespace cv;
+using namespace std;
+
+int main() {
+
+	Mat I = imread("C:/apple.jpg");
+
+	if (image.empty()) {
+		cout << "Не удалось загрузить изображение." << endl;
+		return -1;
+	}
+
+	
+	Mat hsvImage;
+	cvtColor(image, hsvImage, COLOR_BGR2HSV);
+
+	
+	Scalar lowerBound(30, 30, 50); 
+	Scalar upperBound(90, 255, 255); 
+
+	Mat mask;
+	inRange(hsvImage, lowerBound, upperBound, mask);
+
+	
+	Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(5, 5));
+	morphologyEx(mask, mask, MORPH_OPEN, kernel);
+	morphologyEx(mask, mask, MORPH_CLOSE, kernel);
+
+	
+	vector<vector<Point>> contours;
+	findContours(mask, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+
+	for (size_t i = 0; i < contours.size(); i++) {
+		double area = contourArea(contours[i]);
+		if (area > 1000) { 
+			cout << "Это зеленое яблоко." << endl;
+			break; 
+		}
+	}
+
+	imshow("Original Image", image);
+	imshow("Mask", mask);
+	waitKey(0);
+
+	return 0;
+}
