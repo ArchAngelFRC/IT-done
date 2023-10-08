@@ -4,146 +4,137 @@
 #include <cstdlib>
 using namespace std;
 
-// Структура для предметов
 struct Item {
-    int value;  // Стоимость предмета
-    int weight; // Вес предмета
+	int value;  
+	int weight; 
 };
 
-// Функция для оценки приспособленности (fitness) комбинации предметов
 int evaluateFitness(const vector<Item>& items, const vector<bool>& selectedItems, int maxWeight) {
-    int totalValue = 0;
-    int totalWeight = 0;
+	int totalValue = 0;
+	int totalWeight = 0;
 
-    for (int i = 0; i < items.size(); i++) {
-        if (selectedItems[i]) {
-            totalValue += items[i].value;
-            totalWeight += items[i].weight;
-        }
-    }
+	for (int i = 0; i < items.size(); i++) {
+		if (selectedItems[i]) {
+			totalValue += items[i].value;
+			totalWeight += items[i].weight;
+		}
+	}
 
-    // Если вес не превышает максимальный, то приспособленность - стоимость, иначе - 0
-    if (totalWeight <= maxWeight) {
-        return totalValue;
-    } else {
-        return 0;
-    }
+	if (totalWeight <= maxWeight) {
+		return totalValue;
+	}
+	else {
+		return 0;
+	}
 }
 
-// Функция для скрещивания двух родителей и создания потомка
 vector<bool> crossover(const vector<bool>& parent1, const vector<bool>& parent2) {
-    int size = parent1.size();
-    int crossoverPoint = rand() % size; // Случайная точка для скрещивания
-    vector<bool> child(size);
+	int size = parent1.size();
+	int crossoverPoint = rand() % size; 
+	vector<bool> child(size);
 
-    for (int i = 0; i < size; i++) {
-        if (i < crossoverPoint) {
-            child[i] = parent1[i];
-        } else {
-            child[i] = parent2[i];
-        }
-    }
+	for (int i = 0; i < size; i++) {
+		if (i < crossoverPoint) {
+			child[i] = parent1[i];
+		}
+		else {
+			child[i] = parent2[i];
+		}
+	}
 
-    return child;
+	return child;
 }
 
-// Функция для мутации потомка с некоторой вероятностью
 void mutate(vector<bool>& child, double mutationRate) {
-    int size = child.size();
+	int size = child.size();
 
-    for (int i = 0; i < size; i++) {
-        if ((double)rand() / RAND_MAX < mutationRate) {
-            child[i] = !child[i];
-        }
-    }
+	for (int i = 0; i < size; i++) {
+		if ((double)rand() / RAND_MAX < mutationRate) {
+			child[i] = !child[i];
+		}
+	}
 }
 
 int main() {
-    srand(time(NULL));
+	srand(time(NULL));
 
-    int maxWeight, generations;
-    cout << "Введите максимальный вес рюкзака: ";
-    cin >> maxWeight;
-    cout << "Введите количество поколений: ";
-    cin >> generations;
+	int maxWeight, generations;
+	cout << "Enter the maximum backpack weight: ";
+	cin >> maxWeight;
+	cout << "Enter the number of generations: ";
+	cin >> generations;
 
-    vector<Item> items;
-    int numItems;
-    cout << "Введите количество предметов: ";
-    cin >> numItems;
+	vector<Item> items;
+	int numItems;
+	cout << "Enter the number of items: ";
+	cin >> numItems;
 
-    for (int i = 0; i < numItems; i++) {
-        Item item;
-        cout << "Введите стоимость и вес предмета " << i + 1 << ": ";
-        cin >> item.value >> item.weight;
-        items.push_back(item);
-    }
+	for (int i = 0; i < numItems; i++) {
+		Item item;
+		cout << "Enter the cost and weight of the item " << i + 1 << ": ";
+		cin >> item.value >> item.weight;
+		items.push_back(item);
+	}
 
-    int populationSize = 100; // Размер популяции
-    vector<vector<bool>> population(populationSize, vector<bool>(numItems));
-    vector<int> fitness(populationSize, 0);
+	int populationSize = 100; 
+	vector<vector<bool>> population(populationSize, vector<bool>(numItems));
+	vector<int> fitness(populationSize, 0);
 
-    int bestFitness = 0;
-    vector<bool> bestSolution(numItems);
+	int bestFitness = 0;
+	vector<bool> bestSolution(numItems);
 
-    // Инициализация начальной популяции
-    for (int i = 0; i < populationSize; i++) {
-        for (int j = 0; j < numItems; j++) {
-            population[i][j] = rand() % 2;
-        }
-    }
+	for (int i = 0; i < populationSize; i++) {
+		for (int j = 0; j < numItems; j++) {
+			population[i][j] = rand() % 2;
+		}
+	}
 
-    // Главный цикл генетического алгоритма
-    for (int generation = 0; generation < generations; generation++) {
-        // Оценка приспособленности и выбор лучших решений
-        for (int i = 0; i < populationSize; i++) {
-            fitness[i] = evaluateFitness(items, population[i], maxWeight);
-            if (fitness[i] > bestFitness) {
-                bestFitness = fitness[i];
-                bestSolution = population[i];
-            }
-        }
+	for (int generation = 0; generation < generations; generation++) {
+		for (int i = 0; i < populationSize; i++) {
+			fitness[i] = evaluateFitness(items, population[i], maxWeight);
+			if (fitness[i] > bestFitness) {
+				bestFitness = fitness[i];
+				bestSolution = population[i];
+			}
+		}
 
-        // Создание новой популяции
-        vector<vector<bool>> newPopulation(populationSize, vector<bool>(numItems));
+		vector<vector<bool>> newPopulation(populationSize, vector<bool>(numItems));
 
-        for (int i = 0; i < populationSize; i += 2) {
-            // Выбор двух родителей с турнирной селекцией
-            int parent1 = rand() % populationSize;
-            int parent2 = rand() % populationSize;
+		for (int i = 0; i < populationSize; i += 2) {
+			int parent1 = rand() % populationSize;
+			int parent2 = rand() % populationSize;
 
-            if (fitness[parent1] > fitness[parent2]) {
-                newPopulation[i] = population[parent1];
-            } else {
-                newPopulation[i] = population[parent2];
-            }
+			if (fitness[parent1] > fitness[parent2]) {
+				newPopulation[i] = population[parent1];
+			}
+			else {
+				newPopulation[i] = population[parent2];
+			}
 
-            parent1 = rand() % populationSize;
-            parent2 = rand() % populationSize;
+			parent1 = rand() % populationSize;
+			parent2 = rand() % populationSize;
 
-            if (fitness[parent1] > fitness[parent2]) {
-                newPopulation[i + 1] = population[parent1];
-            } else {
-                newPopulation[i + 1] = population[parent2];
-            }
+			if (fitness[parent1] > fitness[parent2]) {
+				newPopulation[i + 1] = population[parent1];
+			}
+			else {
+				newPopulation[i + 1] = population[parent2];
+			}
 
-            // Скрещивание и мутация
-            newPopulation[i] = crossover(newPopulation[i], newPopulation[i + 1]);
-            mutate(newPopulation[i], 0.01);
-            mutate(newPopulation[i + 1], 0.01);
-        }
+			newPopulation[i] = crossover(newPopulation[i], newPopulation[i + 1]);
+			mutate(newPopulation[i], 0.01);
+			mutate(newPopulation[i + 1], 0.01);
+		}
 
-        // Замена старой популяции новой
-        population = newPopulation;
-    }
+		population = newPopulation;
+	}
 
-    // Вывод лучшего решения
-    cout << "Лучшее решение (0 - предмет не выбран, 1 - предмет выбран): ";
-    for (int i = 0; i < numItems; i++) {
-        cout << bestSolution[i] << " ";
-    }
-    cout << endl;
-    cout << "Максимальная стоимость: " << bestFitness << endl;
+	cout << "Best solution (0 - item not selected, 1 - item selected): ";
+	for (int i = 0; i < numItems; i++) {
+		cout << bestSolution[i] << " ";
+	}
+	cout << endl;
+	cout << "Maximum cost: " << bestFitness << endl;
 
-    return 0;
+	return 0;
 }
