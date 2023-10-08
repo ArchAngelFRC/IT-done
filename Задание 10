@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Котэ.сру</title>
     <style>
-        /* CSS стили для страницы */
         body {
             font-family: Arial, sans-serif;
             background-color: #ffc0cb;
@@ -37,6 +36,23 @@
             height: auto;
         }
 
+        .tail-container {
+            position: relative;
+            animation: tailAnimation 2s infinite;
+            transform-origin: bottom right;
+        }
+
+        @keyframes tailAnimation {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(20deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -57,8 +73,46 @@
         </ul>
     </div>
 
+    <div class="main">
+        <span class="stand"></span>
+        <div class="cat">
+            <div class="body"></div>
+            <div class="head">
+                <div class="ear"></div>
+                <div class="ear"></div>
+            </div>
+            <div class="face">
+                <div class="nose"></div>
+                <div class="whisker-container">
+                    <div class="whisker"></div>
+                    <div class="whisker"></div>
+                </div>
+                <div class="whisker-container">
+                    <div class="whisker"></div>
+                    <div class="whisker"></div>
+                </div>
+            </div>
+            <div class="tail-container">
+                <div class="tail">
+                    <div class="tail">
+                        <div class="tail">
+                            <div class="tail">
+                                <div class="tail">
+                                    <div class="tail">
+                                        <div class="tail"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
     </script>
 </body>
 </html>
+
 
