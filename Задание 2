@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int возраст;
+    cout << "Введите свой возраст: ";
+    cin >> возраст;
+
+    int годРождения;
+    cout << "Введите год рождения: ";
+    cin >> годРождения;
+
+    int текущийГод = 2023;
+
+    int текущийВозраст = текущийГод - годРождения;
+
+    bool подходитДляXPlus = текущийВозраст >= возраст;
+
+    if (подходитДляXPlus) {
+        cout << "True" << endl;
+    } else {
+        cout << "False" << endl;
+    }
+
+    return 0;
+}
