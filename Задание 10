@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Котэ.сру</title>
+    <style>
+        /* CSS стили для страницы */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffc0cb;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            background-color: #333;
+            color: #ccff00;
+            padding: 10px;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #e6e6fa;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Котики</h1>
+    </header>
+
+    <div class="content">
+        <h2>Котэ</h2>
+        <p>Кушает</p>
+        <img src="https://http.cat/images/202.jpg" />
+
+        <h3>Ссылки на других Котэ:</h3>
+        <ul>
+            <li><a href="https://http.cat/status/599">Котэ дудосит интернет</a></li>
+            <li><a href="https://http.cat/status/100">Котэ летает</a></li>
+            <li><a href="https://http.cat/status/415">Котэ наслаждается музыкой</a></li>
+        </ul>
+    </div>
+
+    <script>
+    </script>
+</body>
+</html>
+
